@@ -1,0 +1,68 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+---
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/logo.svg" alt="The AI Theory" class="nav-logo-img nav-logo-light" />
+      <img src="/dark_logo.svg" alt="The AI Theory" class="nav-logo-img nav-logo-dark" />
+    </a>
+
+    <nav class="nav-links">
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease;
+  }
+
+  .nav-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .nav-logo-img {
+    height: 90px;
+    width: auto;
+    margin: 30px 0;
+  }
+
+  .nav-logo-dark {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .nav-logo-light {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .nav-logo-dark {
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+</style>

@@ -1,0 +1,176 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('posts');
+  return posts
+    .filter((post) => post.data.published)
+    .map((post) => ({
+      params: { slug: post.slug },
+      props: { post },
+    }));
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const words = post.body.split(/\s+/).length;
+const readingTime = Math.max(1, Math.round(words / 200));
+
+const dateObj = new Date(post.data.date);
+const formattedDate = dateObj.toLocaleDateString('es', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={`${post.data.title} - The AI Theory`} description={post.data.excerpt}>
+  <article class="post">
+    <header class="post-header">
+      <a href="/" class="back-link">&larr; Volver a publicaciones</a>
+      <span class="post-tag">{post.data.tag}</span>
+      <h1 class="post-title" style={`view-transition-name: post-title-${post.slug};`}>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={post.data.date}>{formattedDate}</time>
+        <span class="meta-sep">&middot;</span>
+        <span>{readingTime} min de lectura</span>
+      </div>
+    </header>
+
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding: 3rem 0 5rem;
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .back-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .post-tag {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+  }
+
+  .post-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  .post-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .meta-sep {
+    opacity: 0.5;
+  }
+
+  .post-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: var(--color-text);
+  }
+
+  .post-body :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-body :global(h2) {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--color-primary);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-body :global(h3) {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .post-body :global(blockquote) {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .post-body :global(a) {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .post-body :global(a:hover) {
+    color: var(--color-accent);
+  }
+
+  .post-body :global(code) {
+    font-family: 'Courier New', monospace;
+    font-size: 0.875em;
+    background: var(--color-surface);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--color-border);
+  }
+
+  /* Drop cap */
+  .post-body :global(> p:first-child::first-letter) {
+    font-family: 'Fraunces', serif;
+    font-size: 3.2rem;
+    font-weight: 400;
+    float: left;
+    line-height: 0.85;
+    margin-right: 8px;
+    margin-top: 4px;
+    color: var(--color-secondary);
+  }
+</style>
