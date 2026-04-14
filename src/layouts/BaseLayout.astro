@@ -31,6 +31,15 @@ const {
 
     <ViewTransitions />
 
+    {import.meta.env.PROD && (
+      <script
+        is:inline
+        defer
+        src="https://analytics.theaitheory.com/script.js"
+        data-website-id="ebd3d4cc-c981-4c67-afb0-9c84fd65ffce"
+      ></script>
+    )}
+
     <script is:inline>
       function applyTheme() {
         const stored = localStorage.getItem('theme');
