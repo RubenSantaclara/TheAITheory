@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Comments from '../../components/Comments.astro';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
@@ -45,6 +46,8 @@ const formattedDate = dateObj.toLocaleDateString('es', {
     <div class="post-body">
       <Content />
     </div>
+
+    <Comments />
   </article>
 </BaseLayout>
 
