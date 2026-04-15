@@ -5,6 +5,7 @@ import keystatic from '@keystatic/astro';
 import react from '@astrojs/react';
 
 export default defineConfig({
+  site: 'https://www.theaitheory.com',
   output: 'static',
   adapter: vercel(),
   integrations: [react(), keystatic()],

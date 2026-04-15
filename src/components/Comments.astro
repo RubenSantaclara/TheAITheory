@@ -1,11 +1,8 @@
 ---
 const isProd = import.meta.env.PROD;
-const lightTheme = isProd
-  ? 'https://theaitheory.com/giscus-light.css'
-  : 'light';
-const darkTheme = isProd
-  ? 'https://theaitheory.com/giscus-dark.css'
-  : 'dark';
+const siteOrigin = Astro.site?.origin ?? '';
+const lightTheme = isProd ? `${siteOrigin}/giscus-light.css` : 'light';
+const darkTheme = isProd ? `${siteOrigin}/giscus-dark.css` : 'dark';
 ---
 
 <section class="comments" aria-label="Comentarios">
