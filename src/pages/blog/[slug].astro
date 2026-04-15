@@ -3,7 +3,7 @@ export const prerender = true;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Comments from '../../components/Comments.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -16,34 +16,127 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }));
 };
 
-const { post } = Astro.props;
+type Props = { post: CollectionEntry<'posts'> };
+const { post } = Astro.props as Props;
 const { Content } = await post.render();
 
-const words = post.body.split(/\s+/).length;
+const words = post.body.split(/\s+/).filter(Boolean).length;
 const readingTime = Math.max(1, Math.round(words / 200));
 
 const dateObj = new Date(post.data.date);
-const formattedDate = dateObj.toLocaleDateString('es', {
+const formattedDate = dateObj.toLocaleDateString('es-ES', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
 });
+
+const updatedObj = post.data.updated ? new Date(post.data.updated) : null;
+const formattedUpdated = updatedObj
+  ? updatedObj.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.theaitheory.com';
+const postUrl = `${siteUrl}/blog/${post.slug}/`;
+const ogImage = post.data.image ?? '/og-default.png';
+const author = post.data.author ?? 'The AI Theory';
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': postUrl,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+  headline: post.data.title,
+  description: post.data.excerpt,
+  articleSection: post.data.tag,
+  keywords: post.data.keywords?.join(', '),
+  inLanguage: 'es-ES',
+  wordCount: words,
+  datePublished: post.data.date,
+  dateModified: post.data.updated ?? post.data.date,
+  url: postUrl,
+  image: {
+    '@type': 'ImageObject',
+    url: new URL(ogImage, Astro.site).toString(),
+    width: 1200,
+    height: 630,
+  },
+  author: {
+    '@type': 'Person',
+    name: author,
+    url: siteUrl,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'The AI Theory',
+    url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/logo.svg`,
+    },
+  },
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/#posts` },
+    { '@type': 'ListItem', position: 3, name: post.data.title, item: postUrl },
+  ],
+};
 ---
 
-<BaseLayout title={`${post.data.title} - The AI Theory`} description={post.data.excerpt}>
-  <article class="post">
+<BaseLayout
+  title={`${post.data.title} — The AI Theory`}
+  description={post.data.excerpt}
+  canonical={post.data.canonical ?? postUrl}
+  image={ogImage}
+  imageAlt={post.data.imageAlt ?? post.data.title}
+  type="article"
+  publishedTime={post.data.date}
+  modifiedTime={post.data.updated ?? post.data.date}
+  author={author}
+  tags={post.data.keywords ?? [post.data.tag]}
+  keywords={post.data.keywords}
+  noindex={post.data.noindex}
+  jsonLd={[articleSchema, breadcrumbSchema]}
+>
+  <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
+    <meta itemprop="datePublished" content={post.data.date} />
+    {post.data.updated && <meta itemprop="dateModified" content={post.data.updated} />}
+    <link itemprop="mainEntityOfPage" href={postUrl} />
+
     <header class="post-header">
       <a href="/" class="back-link">&larr; Volver a publicaciones</a>
-      <span class="post-tag">{post.data.tag}</span>
-      <h1 class="post-title" style={`view-transition-name: post-title-${post.slug};`}>{post.data.title}</h1>
+      <span class="post-tag" itemprop="articleSection">{post.data.tag}</span>
+      <h1
+        class="post-title"
+        itemprop="headline"
+        style={`view-transition-name: post-title-${post.slug};`}
+      >
+        {post.data.title}
+      </h1>
       <div class="post-meta">
-        <time datetime={post.data.date}>{formattedDate}</time>
-        <span class="meta-sep">&middot;</span>
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person" class="post-author">
+          <span itemprop="name">{author}</span>
+        </span>
+        <span class="meta-sep" aria-hidden="true">&middot;</span>
+        <time datetime={post.data.date} itemprop="datePublished">{formattedDate}</time>
+        {formattedUpdated && (
+          <>
+            <span class="meta-sep" aria-hidden="true">&middot;</span>
+            <span class="post-updated">
+              Actualizado <time datetime={post.data.updated} itemprop="dateModified">{formattedUpdated}</time>
+            </span>
+          </>
+        )}
+        <span class="meta-sep" aria-hidden="true">&middot;</span>
         <span>{readingTime} min de lectura</span>
       </div>
     </header>
 
-    <div class="post-body">
+    <div class="post-body" itemprop="articleBody">
       <Content />
     </div>
 
@@ -100,6 +193,7 @@ const formattedDate = dateObj.toLocaleDateString('es', {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
   }
@@ -163,6 +257,12 @@ const formattedDate = dateObj.toLocaleDateString('es', {
     padding: 0.1em 0.4em;
     border-radius: 2px;
     border: 1px solid var(--color-border);
+  }
+
+  .post-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
   }
 
   /* Drop cap */

@@ -1,35 +1,128 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
+import SEO from '../components/SEO.astro';
 
-interface Props {
+export interface Props {
   title?: string;
   description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  keywords?: string[];
+  noindex?: boolean;
+  pageTitle?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
-  title = 'The AI Theory',
-  description = 'Un blog sobre inteligencia artificial, fundamentos y seguridad.',
+  title = 'The AI Theory — Ensayos sobre inteligencia artificial, fundamentos y seguridad',
+  description = 'Ensayos y análisis críticos sobre inteligencia artificial: fundamentos, epistemología, seguridad y filosofía de los sistemas inteligentes.',
+  canonical,
+  image,
+  imageAlt,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+  tags,
+  keywords,
+  noindex = false,
+  jsonLd,
 } = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.theaitheory.com';
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'The AI Theory',
+  alternateName: 'TheAITheory',
+  url: siteUrl,
+  inLanguage: 'es-ES',
+  description,
+  publisher: {
+    '@type': 'Organization',
+    name: 'The AI Theory',
+    url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/logo.svg`,
+    },
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'The AI Theory',
+  url: siteUrl,
+  logo: `${siteUrl}/logo.svg`,
+  sameAs: [
+    'https://twitter.com/theaitheory',
+    'https://linkedin.com/in/theaitheory',
+  ],
+};
+
+const schemas: Record<string, unknown>[] = [websiteSchema, organizationSchema];
+if (jsonLd) {
+  if (Array.isArray(jsonLd)) schemas.push(...jsonLd);
+  else schemas.push(jsonLd);
+}
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#F2FBF8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1816" media="(prefers-color-scheme: dark)" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <link rel="alternate icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      tags={tags}
+      keywords={keywords}
+      noindex={noindex}
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
 
-    <ViewTransitions />
+    <ClientRouter />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemas)} />
 
     {import.meta.env.PROD && (
       <script
@@ -52,7 +145,7 @@ const {
   </head>
   <body>
     <Nav />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <slot name="footer" />
@@ -115,6 +208,9 @@ const {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   main {
@@ -138,6 +234,12 @@ const {
     padding: 0 1.5rem;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
   /* Page transitions */
   @keyframes fadeIn {
     from { opacity: 0; }
@@ -154,6 +256,19 @@ const {
   }
   ::view-transition-new(root) {
     animation: 250ms ease both fadeIn;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
   }
 
   /* Botones */
@@ -175,7 +290,7 @@ const {
   .btn:hover {
     background: var(--color-btn-hover);
     border-color: var(--color-btn-hover);
-    color: var(--color-primary);
+    color: var(--color-btn-text);
   }
 
   .btn.outline {

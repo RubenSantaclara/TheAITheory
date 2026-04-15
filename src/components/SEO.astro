@@ -1,0 +1,83 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  noindex?: boolean;
+  keywords?: string[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image,
+  imageAlt,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author = 'The AI Theory',
+  tags = [],
+  noindex = false,
+  keywords = [],
+} = Astro.props;
+
+const siteName = 'The AI Theory';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.theaitheory.com';
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = image ? new URL(image, Astro.site).toString() : `${siteUrl}/og-default.png`;
+const ogImageAlt = imageAlt ?? title;
+const locale = 'es_ES';
+const twitterHandle = '@theaitheory';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
+<meta name="author" content={author} />
+<link rel="canonical" href={canonicalUrl} />
+
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+<meta name="googlebot" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+<meta property="og:site_name" content={siteName} />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:locale" content={locale} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:alt" content={ogImageAlt} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+{type === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{type === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
+{type === 'article' && author && (
+  <meta property="article:author" content={author} />
+)}
+{type === 'article' && tags.map((tag) => (
+  <meta property="article:tag" content={tag} />
+))}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content={twitterHandle} />
+<meta name="twitter:creator" content={twitterHandle} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image:alt" content={ogImageAlt} />
+
+<link rel="alternate" type="application/rss+xml" title={`${siteName} — RSS`} href={`${siteUrl}/rss.xml`} />
+<link rel="sitemap" type="application/xml" href={`${siteUrl}/sitemap-index.xml`} />

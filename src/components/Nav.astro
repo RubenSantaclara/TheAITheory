@@ -3,14 +3,29 @@ import ThemeToggle from './ThemeToggle.astro';
 
 ---
 
-<header class="nav">
+<header class="nav" role="banner">
   <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <img src="/logo.svg" alt="The AI Theory" class="nav-logo-img nav-logo-light" />
-      <img src="/dark_logo.svg" alt="The AI Theory" class="nav-logo-img nav-logo-dark" />
+    <a href="/" class="nav-logo" aria-label="The AI Theory — Inicio" rel="home">
+      <img
+        src="/logo.svg"
+        alt="The AI Theory"
+        class="nav-logo-img nav-logo-light"
+        width="180"
+        height="90"
+        decoding="async"
+        fetchpriority="high"
+      />
+      <img
+        src="/dark_logo.svg"
+        alt="The AI Theory"
+        class="nav-logo-img nav-logo-dark"
+        width="180"
+        height="90"
+        decoding="async"
+      />
     </a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Primaria">
       <ThemeToggle />
     </nav>
   </div>

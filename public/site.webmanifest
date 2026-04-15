@@ -1,0 +1,26 @@
+{
+  "name": "The AI Theory",
+  "short_name": "AI Theory",
+  "description": "Ensayos y análisis críticos sobre inteligencia artificial: fundamentos, epistemología, seguridad y filosofía de los sistemas inteligentes.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F2FBF8",
+  "theme_color": "#0F2F26",
+  "lang": "es-ES",
+  "dir": "ltr",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

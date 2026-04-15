@@ -86,26 +86,6 @@ src/
     └── ThemeToggle.astro
 ```
 
-## Deploy en Vercel
-
-1. Conecta el repositorio en [vercel.com](https://vercel.com).
-2. Vercel detecta Astro automáticamente.
-3. Las variables de entorno necesarias para Keystatic con GitHub storage se configuran en el panel de Vercel si se migra de `storage: local` a `storage: github`.
-
-Para usar Keystatic con GitHub como backend en producción, actualiza `keystatic.config.ts`:
-
-```ts
-storage: {
-  kind: 'github',
-  repo: 'TU_USER/TU_REPO',
-},
-```
-
-Y configura las variables de entorno `KEYSTATIC_GITHUB_CLIENT_ID`, `KEYSTATIC_GITHUB_CLIENT_SECRET` y `KEYSTATIC_SECRET` en Vercel.
-
-## Analítica con Umami
-
-La web usa [Umami](https://umami.is) como alternativa a Google Analytics: **sin cookies, sin datos personales y sin necesidad de banner de consentimiento** bajo GDPR/ePrivacy.
 
 ### Arquitectura
 
@@ -113,17 +93,3 @@ La web usa [Umami](https://umami.is) como alternativa a Google Analytics: **sin 
 theaitheory.com  ──script──▶  analytics.theaitheory.com  ──▶  Neon Postgres
    (Astro)                          (Umami en Vercel)         (free tier)
 ```
-
-### Configuración
-
-- **Instancia de Umami**: desplegada desde un fork de [`umami-software/umami`](https://github.com/umami-software/umami) en Vercel.
-- **Variables de entorno** en el proyecto de Umami:
-  - `DATABASE_URL` → connection string de Neon
-  - `DATABASE_TYPE` → `postgresql`
-  - `APP_SECRET` → string aleatorio para cifrar sesiones de admin
-- **Subdominio**: `analytics.theaitheory.com` apunta al despliegue de Umami en Vercel.
-- **Script de tracking**: integrado en `src/layouts/BaseLayout.astro` con `defer` y solo en producción (`import.meta.env.PROD`).
-
-### Acceder al dashboard
-
-[https://analytics.theaitheory.com](https://analytics.theaitheory.com)
