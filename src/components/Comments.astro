@@ -10,27 +10,34 @@ const darkTheme = isProd ? `${siteOrigin}/giscus-dark.css` : 'dark';
   <div class="giscus"></div>
 </section>
 
-<script
-  is:inline
-  src="https://giscus.app/client.js"
-  data-repo="RubenSantaclara/TheAITheory"
-  data-repo-id="R_kgDOSB3dWg"
-  data-category="Comments"
-  data-category-id="DIC_kwDOSB3dWs4C63Fi"
-  data-mapping="pathname"
-  data-strict="0"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme={lightTheme}
-  data-lang="es"
-  crossorigin="anonymous"
-  async
-></script>
-
 <script is:inline define:vars={{ lightTheme, darkTheme }}>
   function currentGiscusTheme() {
     return document.documentElement.dataset.theme === 'dark' ? darkTheme : lightTheme;
+  }
+
+  function mountGiscus() {
+    const container = document.querySelector('.giscus');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    Object.entries({
+      'data-repo': 'RubenSantaclara/TheAITheory',
+      'data-repo-id': 'R_kgDOSB3dWg',
+      'data-category': 'Comments',
+      'data-category-id': 'DIC_kwDOSB3dWs4C63Fi',
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': currentGiscusTheme(),
+      'data-lang': 'es',
+    }).forEach(([k, v]) => script.setAttribute(k, v));
+    container.appendChild(script);
   }
 
   function sendGiscusTheme() {
@@ -47,13 +54,14 @@ const darkTheme = isProd ? `${siteOrigin}/giscus-dark.css` : 'dark';
     if (event.data?.giscus?.discussion) sendGiscusTheme();
   });
 
-  const observer = new MutationObserver(sendGiscusTheme);
-  observer.observe(document.documentElement, {
+  const themeObserver = new MutationObserver(sendGiscusTheme);
+  themeObserver.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ['data-theme'],
   });
 
-  document.addEventListener('astro:after-swap', sendGiscusTheme);
+  mountGiscus();
+  document.addEventListener('astro:page-load', mountGiscus);
 </script>
 
 <style>
