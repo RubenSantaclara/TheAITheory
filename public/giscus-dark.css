@@ -60,12 +60,12 @@ main {
   --color-fg-default: #F2FBF8;
   --color-fg-muted: #9FB5AE;
   --color-fg-subtle: #5F6F69;
-  --color-canvas-default: #040606;
-  --color-canvas-overlay: #0F2F26;
-  --color-canvas-inset: #0F2F26;
-  --color-canvas-subtle: #0F2F26;
-  --color-border-default: #1C3D34;
-  --color-border-muted: #1C3D34;
+  --color-canvas-default: #0E1816;
+  --color-canvas-overlay: #0E1816;
+  --color-canvas-inset: #0E1816;
+  --color-canvas-subtle: #0E1816;
+  --color-border-default: #24382F;
+  --color-border-muted: #1C2B25;
   --color-neutral-muted: #1C3D34;
   --color-accent-fg: #34D399;
   --color-accent-emphasis: #1F7A63;
