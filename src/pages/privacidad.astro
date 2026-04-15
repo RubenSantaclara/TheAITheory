@@ -1,0 +1,190 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const lastUpdated = '2026-04-16';
+const formattedDate = new Date(lastUpdated).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title="Política de privacidad — The AI Theory"
+  description="Qué datos se recogen al visitar The AI Theory, qué servicios de terceros se cargan y cómo se tratan."
+  type="website"
+  noindex={false}
+>
+  <article class="legal">
+    <header class="legal-header">
+      <a href="/" class="back-link">&larr; Volver a publicaciones</a>
+      <h1>Política de privacidad</h1>
+      <p class="legal-meta">Última actualización: <time datetime={lastUpdated}>{formattedDate}</time></p>
+    </header>
+
+    <section>
+      <p>
+        The AI Theory es un blog personal. Esta página explica, sin palabrería legal,
+        qué ocurre con tus datos cuando navegas por él.
+      </p>
+    </section>
+
+    <section>
+      <h2>Qué datos se recogen</h2>
+      <p>
+        Ninguno identificable personalmente. No hay formularios de registro, ni
+        cuentas de usuario, ni cookies propias. No se recopila tu nombre, correo,
+        ubicación precisa ni historial de navegación.
+      </p>
+    </section>
+
+    <section>
+      <h2>Analítica</h2>
+      <p>
+        Uso <a href="https://umami.is/" rel="noopener noreferrer" target="_blank">Umami</a>,
+        una herramienta de analítica autoalojada en mi propio servidor. Umami no utiliza
+        cookies ni recolecta información personal: solo registra agregados anónimos como
+        páginas visitadas, país aproximado (derivado de la IP, que no se almacena) y tipo
+        de dispositivo. Esto me ayuda a saber qué temas interesan sin identificar a nadie.
+      </p>
+    </section>
+
+    <section>
+      <h2>Comentarios</h2>
+      <p>
+        Los comentarios en los artículos funcionan con
+        <a href="https://giscus.app/" rel="noopener noreferrer" target="_blank">Giscus</a>,
+        que almacena las discusiones en GitHub Discussions. Para comentar necesitas una
+        cuenta de GitHub y aceptar su propia política. El widget solo se carga cuando
+        llegas al final del artículo; si no comentas, no se envía ningún dato a GitHub
+        más allá de la carga del script.
+      </p>
+      <p>
+        Los comentarios son públicos. Lo que publiques lo verá cualquier persona que
+        visite el artículo.
+      </p>
+    </section>
+
+    <section>
+      <h2>Tipografías</h2>
+      <p>
+        Las fuentes del sitio se cargan desde Google Fonts. Esto implica que Google
+        recibe tu dirección IP al abrir la web. Google Fonts no establece cookies
+        ni perfila al usuario, pero es un servicio de terceros y debes saberlo.
+      </p>
+    </section>
+
+    <section>
+      <h2>Alojamiento</h2>
+      <p>
+        El sitio está alojado en Vercel. Vercel procesa peticiones HTTP básicas (IP,
+        user-agent, URL solicitada) para servir la web; son registros técnicos
+        estándar, no usados para marketing.
+      </p>
+    </section>
+
+    <section>
+      <h2>Tus derechos</h2>
+      <p>
+        Al no almacenar datos personales, no hay expediente que rectificar ni eliminar.
+        Si tienes alguna duda, puedes escribirme a
+        <a href="mailto:rsantpesq@gmail.com">rsantpesq@gmail.com</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2>Cambios</h2>
+      <p>
+        Si añado nuevas integraciones que cambien lo anterior, actualizaré esta página
+        y su fecha. No te enviaré notificaciones porque no tengo tu correo.
+      </p>
+    </section>
+  </article>
+
+  <footer slot="footer" class="site-footer">
+    <ContactSection />
+  </footer>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding: 3rem 0 5rem;
+  }
+
+  .legal-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .back-link:hover {
+    color: var(--color-secondary);
+  }
+
+  .legal h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-primary);
+    margin-bottom: 0.8rem;
+  }
+
+  .legal-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .legal section {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .legal h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+    color: var(--color-primary);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .legal p {
+    margin-bottom: 1rem;
+  }
+
+  .legal a {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .legal a:hover {
+    color: var(--color-accent);
+  }
+
+  .site-footer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    width: 100%;
+    border-top: 1px solid var(--color-border);
+  }
+</style>

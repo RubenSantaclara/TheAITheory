@@ -60,8 +60,25 @@ const darkTheme = isProd ? `${siteOrigin}/giscus-dark.css` : 'dark';
     attributeFilter: ['data-theme'],
   });
 
-  mountGiscus();
-  document.addEventListener('astro:page-load', mountGiscus);
+  function observeMount() {
+    const target = document.querySelector('.comments');
+    if (!target) return;
+    if (target.dataset.mounted === '1') return;
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          target.dataset.mounted = '1';
+          mountGiscus();
+          io.disconnect();
+          break;
+        }
+      }
+    }, { rootMargin: '200px 0px' });
+    io.observe(target);
+  }
+
+  observeMount();
+  document.addEventListener('astro:page-load', observeMount);
 </script>
 
 <style>
