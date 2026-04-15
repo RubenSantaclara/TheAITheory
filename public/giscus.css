@@ -62,10 +62,10 @@ main {
   --color-fg-subtle: #9FB5AE;
   --color-canvas-default: #F2FBF8;
   --color-canvas-overlay: #FFFFFF;
-  --color-canvas-inset: #FFFFFF;
+  --color-canvas-inset: #E8F5EF;
   --color-canvas-subtle: #FFFFFF;
-  --color-border-default: #DDEEE8;
-  --color-border-muted: #DDEEE8;
+  --color-border-default: #9FB5AE;
+  --color-border-muted: #C3D9D0;
   --color-neutral-muted: #DDEEE8;
   --color-accent-fg: #1F7A63;
   --color-accent-emphasis: #1F7A63;
@@ -138,8 +138,25 @@ main[data-theme="dark"] {
 }
 
 .gsc-comment-box,
-.gsc-comment {
+.gsc-comment > .gsc-comment-box-main,
+.gsc-comment .gsc-comment-header,
+.gsc-comment .gsc-comment-content {
   border-radius: 2px !important;
+  border-color: var(--color-border-default) !important;
+}
+
+.gsc-comment-box {
+  border: 1px solid var(--color-border-default) !important;
+}
+
+.gsc-comment > .gsc-comment-box-main {
+  border: 1px solid var(--color-border-default) !important;
+  background-color: var(--color-canvas-subtle) !important;
+}
+
+.gsc-header,
+.gsc-comments > .gsc-header {
+  border-bottom: 1px solid var(--color-border-default) !important;
 }
 
 .gsc-reactions-count {
