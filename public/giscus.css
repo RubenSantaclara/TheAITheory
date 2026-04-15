@@ -1,6 +1,7 @@
 /* Giscus theme — The AI Theory */
 
-main {
+main,
+[data-theme="light"] {
   --color-prettylights-syntax-comment: #5F6F69;
   --color-prettylights-syntax-constant: #1F7A63;
   --color-prettylights-syntax-entity: #34D399;
@@ -84,7 +85,8 @@ main {
   font-family: 'Inter', sans-serif;
 }
 
-main[data-theme="dark"] {
+main[data-theme="dark"],
+[data-theme="dark"] {
   --color-prettylights-syntax-comment: #9FB5AE;
   --color-prettylights-syntax-constant: #34D399;
   --color-prettylights-syntax-entity: #3EE6A8;
