@@ -1,0 +1,115 @@
+/* Giscus theme — The AI Theory (dark) */
+
+main {
+  --color-prettylights-syntax-comment: #9FB5AE;
+  --color-prettylights-syntax-constant: #34D399;
+  --color-prettylights-syntax-entity: #3EE6A8;
+  --color-prettylights-syntax-storage-modifier-import: #F2FBF8;
+  --color-prettylights-syntax-entity-tag: #34D399;
+  --color-prettylights-syntax-keyword: #34D399;
+  --color-prettylights-syntax-string: #3EE6A8;
+  --color-prettylights-syntax-variable: #34D399;
+  --color-prettylights-syntax-brackethighlighter-unmatched: #b91c1c;
+  --color-prettylights-syntax-invalid-illegal-text: #F2FBF8;
+  --color-prettylights-syntax-invalid-illegal-bg: #b91c1c;
+  --color-prettylights-syntax-carriage-return-text: #F2FBF8;
+  --color-prettylights-syntax-carriage-return-bg: #b91c1c;
+  --color-prettylights-syntax-string-regexp: #3EE6A8;
+  --color-prettylights-syntax-markup-list: #9FB5AE;
+  --color-prettylights-syntax-markup-heading: #34D399;
+  --color-prettylights-syntax-markup-italic: #F2FBF8;
+  --color-prettylights-syntax-markup-bold: #F2FBF8;
+  --color-prettylights-syntax-markup-deleted-text: #b91c1c;
+  --color-prettylights-syntax-markup-deleted-bg: #3b0d0d;
+  --color-prettylights-syntax-markup-inserted-text: #34D399;
+  --color-prettylights-syntax-markup-inserted-bg: #1C3D34;
+  --color-prettylights-syntax-markup-changed-text: #fbbf24;
+  --color-prettylights-syntax-markup-changed-bg: #3b2a0d;
+  --color-prettylights-syntax-markup-ignored-text: #0F2F26;
+  --color-prettylights-syntax-markup-ignored-bg: #F2FBF8;
+  --color-prettylights-syntax-meta-diff-range: #34D399;
+  --color-prettylights-syntax-brackethighlighter-angle: #9FB5AE;
+  --color-prettylights-syntax-sublimelinter-gutter-mark: #5F6F69;
+  --color-prettylights-syntax-constant-other-reference-link: #34D399;
+  --color-btn-text: #F2FBF8;
+  --color-btn-bg: #1F7A63;
+  --color-btn-border: #1F7A63;
+  --color-btn-shadow: 0 0 transparent;
+  --color-btn-inset-shadow: 0 0 transparent;
+  --color-btn-hover-bg: #34D399;
+  --color-btn-hover-border: #34D399;
+  --color-btn-active-bg: #3EE6A8;
+  --color-btn-active-border: #3EE6A8;
+  --color-btn-selected-bg: #1C3D34;
+  --color-btn-primary-text: #F2FBF8;
+  --color-btn-primary-bg: #1F7A63;
+  --color-btn-primary-border: #1F7A63;
+  --color-btn-primary-shadow: 0 0 transparent;
+  --color-btn-primary-inset-shadow: 0 0 transparent;
+  --color-btn-primary-hover-bg: #34D399;
+  --color-btn-primary-hover-border: #34D399;
+  --color-btn-primary-selected-bg: #3EE6A8;
+  --color-btn-primary-selected-shadow: 0 0 transparent;
+  --color-btn-primary-disabled-text: #9FB5AE;
+  --color-btn-primary-disabled-bg: #1C3D34;
+  --color-btn-primary-disabled-border: #1C3D34;
+  --color-action-list-item-default-hover-bg: #1C3D34;
+  --color-segmented-control-bg: #1C3D34;
+  --color-segmented-control-button-bg: #0F2F26;
+  --color-segmented-control-button-selected-border: #34D399;
+  --color-fg-default: #F2FBF8;
+  --color-fg-muted: #9FB5AE;
+  --color-fg-subtle: #5F6F69;
+  --color-canvas-default: #040606;
+  --color-canvas-overlay: #0F2F26;
+  --color-canvas-inset: #0F2F26;
+  --color-canvas-subtle: #0F2F26;
+  --color-border-default: #1C3D34;
+  --color-border-muted: #1C3D34;
+  --color-neutral-muted: #1C3D34;
+  --color-accent-fg: #34D399;
+  --color-accent-emphasis: #1F7A63;
+  --color-accent-muted: #1C3D34;
+  --color-accent-subtle: #0F2F26;
+  --color-success-fg: #34D399;
+  --color-attention-fg: #fbbf24;
+  --color-attention-muted: #3b2a0d;
+  --color-attention-subtle: #2a1f08;
+  --color-danger-fg: #f87171;
+  --color-danger-muted: #3b0d0d;
+  --color-danger-subtle: #2a0808;
+  --color-primer-shadow-inset: 0 0 transparent;
+  --color-scale-gray-1: #1C3D34;
+
+  font-family: 'Inter', sans-serif;
+}
+
+.gsc-comment-box,
+.gsc-comment > .gsc-comment-box-main,
+.gsc-comment .gsc-comment-header,
+.gsc-comment .gsc-comment-content {
+  border-radius: 2px !important;
+  border-color: var(--color-border-default) !important;
+}
+
+.gsc-comment-box {
+  border: 1px solid var(--color-border-default) !important;
+}
+
+.gsc-comment > .gsc-comment-box-main {
+  border: 1px solid var(--color-border-default) !important;
+  background-color: var(--color-canvas-subtle) !important;
+}
+
+.gsc-header,
+.gsc-comments > .gsc-header {
+  border-bottom: 1px solid var(--color-border-default) !important;
+}
+
+.gsc-reactions-count {
+  display: none;
+}
+
+.gsc-timeline {
+  gap: 1rem;
+}
